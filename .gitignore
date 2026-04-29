@@ -1,0 +1,32 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.lol
+*.nav
+*.snm
+*.pdfsync
+*.idx
+*.ilg
+*.glg
+*.glo
+*.gls
+*.ist
+*.synctex.gz
+
+# Generated PDF (optional)
+# Uncomment to ignore generated PDF files if you don't want to commit them
+# *.pdf
+
+# Temporary and editor files
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
