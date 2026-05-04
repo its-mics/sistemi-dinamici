@@ -65,6 +65,7 @@
 \theoremstyle{remark}
 \newtheorem*{nota}{Nota}
 \newtheorem{proposizione}{Proposizione}
+\newtheorem{corollario}{Corollario}
 
 \DeclareMathOperator{\sgn}{sgn}
 \newcommand{\Z}{\mathbb{Z}}
@@ -7362,101 +7363,71 @@ T_0 W^s = E^s
 \begin{center}
 \begin{tikzpicture}[
     scale=1.5,
-    % Stili personalizzati per le frecce sulle curve blu
-    arr_fwd/.style={postaction={decorate, decoration={markings,
-        mark=at position 0.4 with {\arrow[scale=1.2]{Stealth}},
-        mark=at position 0.75 with {\arrow[scale=1.2]{Stealth}}}}},
-    arr_bwd/.style={postaction={decorate, decoration={markings,
-        mark=at position 0.25 with {\arrow[scale=1.2]{Stealth}},
-        mark=at position 0.6 with {\arrow[scale=1.2]{Stealth}}}}},
-    arr_fwd_single/.style={postaction={decorate, decoration={markings,
-        mark=at position 0.6 with {\arrow[scale=1.2]{Stealth}}}}},
-    arr_bwd_single/.style={postaction={decorate, decoration={markings,
-        mark=at position 0.4 with {\arrow[scale=1.2]{Stealth}}}}}
+    % Stile semplificato e a prova di errore per le frecce
+    flow arrow/.style={postaction={decorate, decoration={markings, mark=at position #1 with {\arrow{Stealth[scale=1.3]}}}}},
+    % Funzioni matematiche per calcolare le traiettorie rigorosamente
+    declare function={
+        Y(\x,\k) = \k/abs(\x) - \x*\x/3;
+        Xpath(\s,\xstart,\xend) = \xstart*(1-\s) + \xend*\s;
+    }
 ]
 
     % Maschera per tagliare le linee che escono dal riquadro
     \clip (-4,-4) rectangle (4,4);
 
     % Assi X e Y
-    \draw[thick] (-3.9,0) -- (3.9,0) node[below] {$x$};
-    \draw[thick] (0,-3.9) -- (0,3.9) node[left] {$y$};
+    \draw[thick] (-4,0) -- (4,0) node[below] {$x$};
+    \draw[thick] (0,-4) -- (0,4) node[left] {$y$};
 
-    % Frecce Verdi sull'Asse X (Autospazio Stabile E^s, puntano verso l'origine)
-    \path[postaction={decorate, decoration={markings,
-        mark=at position 0.15 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.35 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.65 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.85 with {\arrow[green!60!black, scale=1.4]{Stealth}}
-    }}] (-4,0) -- (0,0);
-    \path[postaction={decorate, decoration={markings,
-        mark=at position 0.15 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.35 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.65 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.85 with {\arrow[green!60!black, scale=1.4]{Stealth}}
-    }}] (4,0) -- (0,0);
+    % Autospazio Stabile E^s (Asse x): Frecce verso l'origine
+    \draw[thick, green!60!black, flow arrow=0.5] (-4,0) -- (-0.5,0);
+    \draw[thick, green!60!black, flow arrow=0.5] (4,0) -- (0.5,0);
 
-    % Frecce Verdi sull'Asse Y (Autospazio Instabile E^u, puntano lontano dall'origine)
-    \path[postaction={decorate, decoration={markings,
-        mark=at position 0.15 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.35 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.65 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.85 with {\arrow[green!60!black, scale=1.4]{Stealth}}
-    }}] (0,0) -- (0,4);
-    \path[postaction={decorate, decoration={markings,
-        mark=at position 0.15 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.35 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.65 with {\arrow[green!60!black, scale=1.4]{Stealth}},
-        mark=at position 0.85 with {\arrow[green!60!black, scale=1.4]{Stealth}}
-    }}] (0,0) -- (0,-4);
+    % Autospazio Instabile E^u (Asse y): Frecce lontano dall'origine
+    \draw[thick, green!60!black, flow arrow=0.5] (0,0.5) -- (0,4);
+    \draw[thick, green!60!black, flow arrow=0.5] (0,-0.5) -- (0,-4);
 
+    % ==========================================
     % Varietà Stabile W^s (Parabola Rossa)
-    % Disegnata in due metà per gestire correttamente il verso delle frecce
-    \draw[thick, red, domain=0:3.8, samples=100, postaction={decorate, decoration={markings,
-        mark=at position 0.25 with {\arrow[scale=1.3]{Stealth}},
-        mark=at position 0.6 with {\arrow[scale=1.3]{Stealth}},
-        mark=at position 0.9 with {\arrow[scale=1.3]{Stealth}}
-    }}] plot (\x, {-\x*\x/3});
-    
-    \draw[thick, red, domain=-3.8:0, samples=100, postaction={decorate, decoration={markings,
-        mark=at position 0.1 with {\arrow[scale=1.3]{Stealth}},
-        mark=at position 0.4 with {\arrow[scale=1.3]{Stealth}},
-        mark=at position 0.75 with {\arrow[scale=1.3]{Stealth}}
-    }}] plot (\x, {-\x*\x/3});
+    % ==========================================
+    % Ramo destro: viaggia da x=3.8 fino all'origine x=0
+    \draw[thick, red, flow arrow=0.3, flow arrow=0.7]
+        plot[domain=0:1, variable=\s, samples=100]
+        ({Xpath(\s, 3.8, 0)}, {-(Xpath(\s, 3.8, 0))^2/3});
+        
+    % Ramo sinistro: viaggia da x=-3.8 fino all'origine x=0
+    \draw[thick, red, flow arrow=0.3, flow arrow=0.7]
+        plot[domain=0:1, variable=\s, samples=100]
+        ({Xpath(\s, -3.8, 0)}, {-(Xpath(\s, -3.8, 0))^2/3});
 
-    % Testo dell'equazione della parabola
-    \node[red, font=\large] at (-2, -3.4) {$y = -\frac{x^2}{3}$};
+    \node[red, font=\large] at (-2.3, -2.5) {$y = -\frac{x^2}{3}$};
 
     % ==========================================
     % Traiettorie Blu (Soluzioni generali del sistema)
     % ==========================================
 
     % --- Curve SUPERIORI alla parabola (K > 0) ---
-    % Traiettoria interna 1
-    \draw[thick, blue, domain=0.2:3.8, samples=100, arr_bwd] plot (\x, {0.8/\x - \x*\x/3});
-    \draw[thick, blue, domain=-3.8:-0.2, samples=100, arr_fwd] plot (\x, {0.8/abs(\x) - \x*\x/3});
+    % Parte Destra (flusso va verso sinistra, quindi da x=start a x=end piccolo)
+    \draw[thick, blue, flow arrow=0.3, flow arrow=0.8] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, 3.8, 0.2)}, {Y(Xpath(\s, 3.8, 0.2), 0.8)});
+    \draw[thick, blue, flow arrow=0.3, flow arrow=0.8] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, 4, 0.6)}, {Y(Xpath(\s, 4, 0.6), 2.5)});
+    \draw[thick, blue, flow arrow=0.5] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, 4, 1.1)}, {Y(Xpath(\s, 4, 1.1), 5)});
+    
+    % Parte Sinistra (flusso va verso destra, quindi da x=start negativo a x=end vicino a 0)
+    \draw[thick, blue, flow arrow=0.3, flow arrow=0.8] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, -3.8, -0.2)}, {Y(Xpath(\s, -3.8, -0.2), 0.8)});
+    \draw[thick, blue, flow arrow=0.3, flow arrow=0.8] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, -4, -0.6)}, {Y(Xpath(\s, -4, -0.6), 2.5)});
+    \draw[thick, blue, flow arrow=0.5] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, -4, -1.1)}, {Y(Xpath(\s, -4, -1.1), 5)});
 
-    % Traiettoria media 2
-    \draw[thick, blue, domain=0.6:4, samples=100, arr_bwd] plot (\x, {2.5/\x - \x*\x/3});
-    \draw[thick, blue, domain=-4:-0.6, samples=100, arr_fwd] plot (\x, {2.5/abs(\x) - \x*\x/3});
-
-    % Traiettoria esterna 3
-    \draw[thick, blue, domain=1.1:4, samples=100, arr_bwd_single] plot (\x, {5/\x - \x*\x/3});
-    \draw[thick, blue, domain=-4:-1.1, samples=100, arr_fwd_single] plot (\x, {5/abs(\x) - \x*\x/3});
-
-
-    % --- Curve INFERIORI alla parabola (K < 0) ---
-    % Traiettoria interna 1 (U rovesciata stretta)
-    \draw[thick, blue, domain=0.12:3.5, samples=100, arr_bwd] plot (\x, {-0.5/\x - \x*\x/3});
-    \draw[thick, blue, domain=-3.5:-0.12, samples=100, arr_fwd] plot (\x, {-0.5/abs(\x) - \x*\x/3});
-
-    % Traiettoria esterna 2 (U rovesciata larga)
-    \draw[thick, blue, domain=0.4:3.8, samples=100, arr_bwd] plot (\x, {-2/\x - \x*\x/3});
-    \draw[thick, blue, domain=-3.8:-0.4, samples=100, arr_fwd] plot (\x, {-2/abs(\x) - \x*\x/3});
+    % --- Curve INFERIORI alla parabola (K < 0, forme a U rovesciata) ---
+    % Parte Destra
+    \draw[thick, blue, flow arrow=0.25, flow arrow=0.85] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, 3.5, 0.12)}, {Y(Xpath(\s, 3.5, 0.12), -0.5)});
+    \draw[thick, blue, flow arrow=0.25, flow arrow=0.85] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, 3.8, 0.4)}, {Y(Xpath(\s, 3.8, 0.4), -2)});
+    
+    % Parte Sinistra
+    \draw[thick, blue, flow arrow=0.25, flow arrow=0.85] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, -3.5, -0.12)}, {Y(Xpath(\s, -3.5, -0.12), -0.5)});
+    \draw[thick, blue, flow arrow=0.25, flow arrow=0.85] plot[domain=0:1, variable=\s, samples=100] ({Xpath(\s, -3.8, -0.4)}, {Y(Xpath(\s, -3.8, -0.4), -2)});
 
 \end{tikzpicture}
 \end{center}
-
 \end{enumerate}
 
 \subsection*{Teorema della Varietà Stabile Locale}
@@ -7598,6 +7569,386 @@ Poiché per una matrice diagonale il determinante è proprio il prodotto degli e
 I_\gamma(f) = \sgn(\det A)
 \]
 \end{proof}
+
+
+
+\begin{teorema}
+Se la curva chiusa $\gamma$ non contiene punti critici (punti di equilibrio) al suo interno, allora $I_\gamma(f) = 0$.
+\end{teorema}
+
+\begin{proof}
+Poiché l'indice $I_\gamma(f)$ è invariante rispetto alle deformazioni continue di $\gamma$ (purché non si attraversino punti critici), possiamo rimpicciolire $\gamma$ in modo continuo fino a farla collassare in un punto (o in un cerchietto di raggio arbitrariamente piccolo). 
+Nel limite in cui la curva diventa un punto, il campo vettoriale $f$ assume un valore costante su tutta la curva infinitesima. Di conseguenza, il vettore $f$ non compie alcuna rotazione lungo il percorso ($0$ rotazioni), quindi l'indice è nullo.
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[
+    scale=1.2,
+    flow arrow/.style={postaction={decorate, decoration={markings, mark=at position #1 with {\arrow{Stealth[scale=1.2]}}}}}
+]
+    % --- SINISTRA: Curva iniziale ---
+    % Curva chiusa arbitraria
+    \draw[thick, blue, flow arrow=0.5] plot[smooth cycle, tension=0.7] coordinates {(-1.5,0) (-0.5,1) (1.5,0.8) (2,-0.5) (0.5,-1)};
+    \node[blue] at (0, 1.2) {$\gamma$};
+    \node[align=center, font=\small] at (0.2, 0) {Nessun punto\\di equilibrio};
+
+    % --- CENTRO: Freccia di deformazione ---
+    \draw[->, thick, shorten >= 5pt, shorten <= 5pt] (2.5, 0) to[bend left=15] (4, 0);
+    \node[font=\footnotesize, align=center] at (3.25, 0.4) {Deformazione\\continua};
+
+    % --- DESTRA: Curva rimpicciolita ---
+    \begin{scope}[shift={(5.5,0)}]
+        % Curva piccola
+        \draw[thick, blue, flow arrow=0.5] (0,0) circle (0.5);
+        \node[blue, left] at (-0.5, 0.3) {$\gamma'$};
+        
+        % Campo vettoriale localmente costante (frecce verdi)
+        \foreach \y in {-0.3, 0, 0.3} {
+            \draw[->, green!60!black, thick] (-0.7,\y) -- (0.7,\y);
+        }
+        \node[green!60!black, right] at (0.7, 0) {$f \approx \text{costante}$};
+        
+        \node[font=\small, align=center] at (0, -1) {Nessuna rotazione\\$I_\gamma(f) = 0$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{osservazione}
+\textbf{Non vale il viceversa.} Se $I_\gamma(f) = 0$, non possiamo concludere che non ci siano punti critici all'interno di $\gamma$. Infatti, potremmo avere più punti critici i cui indici si sommano a zero. Se deformiamo la curva "strozzandola" al centro, è immediato vedere che i contributi integrali lungo i tratti adiacenti (percorsi in versi opposti) si cancellano:
+\[
+I_\gamma(f) = \sum_i I_{x_i}(f)
+\]
+La somma degli indici dei singoli punti racchiusi può dare zero (es. una sella con indice $-1$ e un nodo con indice $+1$).
+\end{osservazione}
+
+\begin{center}
+\begin{tikzpicture}[
+    scale=1.2,
+    flow arrow/.style={postaction={decorate, decoration={markings, mark=at position #1 with {\arrow{Stealth[scale=1.2]}}}}}
+]
+    % --- SINISTRA: Curva grande con più punti ---
+    % Curva chiusa grande
+    \draw[thick, blue, flow arrow=0.4] plot[smooth cycle, tension=0.7] coordinates {(-2,0) (-1,1.2) (1.5,1) (2.5,0) (1.5,-1.2) (-1,-1)};
+    
+    % Punti di equilibrio
+    \filldraw[black] (-0.5,0) circle (1.5pt);
+    \filldraw[black] (1,0.6) circle (1.5pt);
+    \filldraw[black] (1,-0.6) circle (1.5pt);
+    
+    \node[align=center, font=\small] at (0.2, -1.8) {Curva $\gamma$ con\\più punti critici};
+
+    % --- CENTRO: Freccia di deformazione ---
+    \draw[->, thick, shorten >= 5pt, shorten <= 5pt] (3, 0) to[bend left=15] (4.5, 0);
+    \node[font=\footnotesize, align=center] at (3.75, 0.6) {Deformazione\\(senza attraversare\\i punti)};
+
+    % --- DESTRA: Curva "strozzata" ---
+    \begin{scope}[shift={(6.5,0)}]
+        % Punti di equilibrio
+        \filldraw[black] (-0.5,0) circle (1.5pt) coordinate (P1);
+        \filldraw[black] (1,0.6) circle (1.5pt) coordinate (P2);
+        \filldraw[black] (1,-0.6) circle (1.5pt) coordinate (P3);
+        
+        % Curva deformata (Ameba/Strozzatura) disegnata con angoli arrotondati
+        \draw[thick, blue, rounded corners=3pt] 
+        (-0.5, 0.3) -- (1, 0.9) -- (1.3, 0.6) -- (1, 0.3) -- 
+        (0, 0.05) -- % centro superiore
+        (1, -0.3) -- (1.3, -0.6) -- (1, -0.9) -- 
+        (-0.5, -0.3) -- (-0.8, 0) -- cycle;
+        
+        % Evidenziazione della cancellazione sui corridoi (frecce verdi opposte)
+        % Corridoio Superiore
+        \draw[->, green!60!black, thick] (0.2, 0.35) -- (0.6, 0.5);
+        \draw[<-, green!60!black, thick] (0.2, 0.15) -- (0.6, 0.3);
+        \node[green!60!black, font=\footnotesize] at (0.4, 0.65) {si elidono};
+        
+        % Corridoio Inferiore
+        \draw[->, green!60!black, thick] (0.2, -0.15) -- (0.6, -0.3);
+        \draw[<-, green!60!black, thick] (0.2, -0.35) -- (0.6, -0.5);
+        \node[green!60!black, font=\footnotesize] at (0.4, -0.65) {si elidono};
+        
+        \node[align=center, font=\small] at (0.2, -1.8) {$I_\gamma(f) = \sum I_{x_i}(f)$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+
+\begin{teorema}
+Se la curva $\gamma$ è un'orbita periodica del sistema differenziale, allora $I_\gamma(f) = 1$.
+\end{teorema}
+
+\begin{proof}
+Se $\gamma$ è un'orbita del sistema, il campo vettoriale $f$ (che rappresenta la "velocità" $\dot{x}$) è, per definizione, \textbf{sempre tangente} alla curva $\gamma$ in ogni suo punto. Facendo un giro completo lungo una curva chiusa semplice, il vettore tangente compie esattamente una rotazione completa su se stesso. Dunque $I_\gamma(f) = 1$.
+\end{proof}
+
+\begin{corollario}
+Una conseguenza di questo teorema è che \textbf{ogni orbita periodica contiene al suo interno almeno un punto di equilibrio}. (Infatti, se non ci fossero punti di equilibrio, per il primo teorema l'indice dovrebbe essere 0, in contraddizione col fatto che vale 1).
+\end{corollario}
+
+
+\section{Teorema di Poincaré-Bendixson}
+
+Questo teorema è fondamentale per lo studio dei sistemi dinamici planari (in 2 dimensioni), poiché stabilisce che \textbf{in due dimensioni non esiste il caos deterministico}. La dinamica a lungo termine può solo tendere a un punto fisso o a un'orbita periodica.
+
+\begin{teorema}[Poincaré-Bendixson]
+Se abbiamo un flusso $\phi_t$ su $\R^2$ e un dominio chiuso e limitato $D \subset \R^2$ che è \textbf{positivamente invariante} (o \textbf{Invariante in avanti}, ovvero se un'orbita entra in $D$, non ne esce più per $t \to +\infty$), allora per ogni $x \in D$ l'insieme $\omega$-limite di $x$:
+\begin{itemize}
+    \item o contiene un punto di equilibrio,
+    \item oppure è un'orbita periodica (o tende asintoticamente a essa).
+\end{itemize}
+\end{teorema}
+
+Di conseguenza, se riusciamo a costruire una regione trappola $D$ (invariante in avanti) che \textbf{non contiene punti di equilibrio}, il sistema ammette obbligatoriamente almeno una soluzione periodica al suo interno.
+
+\subsection*{Esempio: Modello di Glicolisi}
+
+Studiamo un modello chimico semplificato per la reazione di glicolisi (trasformazione di zucchero in energia), con due sostanze in interazione:
+\begin{center}
+\begin{tikzcd}[row sep=tiny]
+Y \arrow[r, "A"] & X \\
+2X + Y \arrow[r] & 3X
+\end{tikzcd}
+\end{center}
+
+Il sistema di equazioni differenziali associato (assumendo i parametri $a > 0$ e $b = 1/2$) è:
+\begin{equation}
+\begin{cases}
+\dot{x} = -x + ay + x^2y \\
+\dot{y} = \frac{1}{2} - ay - x^2y
+\end{cases}
+\end{equation}
+Notiamo che stiamo considerando concentrazioni chimiche, quindi ha senso fisico operare nel primo quadrante: $x, y \ge 0$.
+
+\subsubsection*{Ricerca del Punto di Equilibrio}
+Uguagliamo le derivate a zero:
+\[
+\begin{cases}
+-x + ay + x^2y = 0 \implies x = y(a+x^2) \\
+\frac{1}{2} - ay - x^2y = 0 \implies \frac{1}{2} = y(a+x^2)
+\end{cases}
+\]
+Confrontando le due equazioni si ottiene immediatamente $x^* = \frac{1}{2}$. Sostituendo nella seconda:
+\[
+\frac{1}{2} = y\left(a + \frac{1}{4}\right) = y\left(\frac{4a+1}{4}\right) \implies y^* = \frac{2}{4a+1}
+\]
+Dunque esiste un unico punto di equilibrio in $(x^*, y^*) = \left( \frac{1}{2}, \frac{2}{4a+1} \right)$.
+
+\subsubsection*{Analisi Lineare (Matrice Jacobiana)}
+Calcoliamo lo Jacobiano:
+\[
+J = \begin{pmatrix}
+-1 + 2xy & x^2 + a \\
+-2xy & -a - x^2
+\end{pmatrix}
+\]
+Valutiamolo nel punto di equilibrio:
+\[
+J(x^*, y^*) = \begin{pmatrix}
+-1 + 2x^*y^* & (x^*)^2 + a \\
+-2x^*y^* & -a - (x^*)^2
+\end{pmatrix}
+\]
+Calcoliamo il determinante (sapendo che $x^* = 1/2$):
+\[
+\det(J) = (-1+2x^*y^*)(-a-(x^*)^2) - (x^*)^2+a = a + (x^*)^2 - 2x^*y^*a - 2(x^*)^3y^* + 2x^*y^*((x^*)^2+a) = \dots = \frac{1}{2y^*}
+\]
+Poiché $y^* > 0$, si ha $\det(J) > 0$. Questo significa che \textbf{non è un punto di sella}. 
+Per determinare se è stabile o instabile guardiamo la traccia:
+\[
+\text{Tr}(J) = -1 + 2x^*y^* - a - (x^*)^2 = -1 + y^* - \frac{1}{2y^*}
+\]
+Scegliamo un valore di $a$ sufficientemente piccolo in modo tale che $\text{Tr}(J) > 0$. Così facendo, \textbf{il punto di equilibrio diventa instabile} (sarà un fuoco instabile o un nodo instabile).
+
+Essendo instabile, possiamo racchiuderlo con una piccola circonferenza dalla quale il flusso \textbf{esce} (punta verso l'esterno).
+
+\subsubsection*{Regione Trappola $D$}
+Vogliamo trovare un contorno esterno in cui il flusso punti sempre verso l'interno, creando così un dominio $D$ (a forma di "ciambella" attorno all'equilibrio) positivamente invariante e senza punti di equilibrio al suo interno.
+
+Procediamo a costruire il contorno (bordo esterno) a pezzi:
+\begin{enumerate}
+    \item \textbf{Asse $x$ ($y=0$):} $\dot{y} = \frac{1}{2} > 0$. Il flusso punta verso l'alto (entra nella regione).
+    \item \textbf{Segmento a sinistra ($x=-\epsilon$):} Per $x$ vicino a $0$ ma negativo, $\dot{x} \approx \epsilon + ay$. Essendo $y>0$, $\dot{x} > 0$. Il flusso punta verso destra (entra).
+    \item \textbf{Studio delle isocline per il tetto:}
+    Le isocline sono $\dot{x}=0 \implies y = \frac{x}{a+x^2}$ e $\dot{y}=0 \implies y = \frac{1}{2(a+x^2)}$.
+    Studiamo $y = \frac{1}{2(a+x^2)}$. Questa funzione ha un massimo in $x=0$, dove $y_{max} = \frac{1}{2a}$.
+    Se consideriamo la retta orizzontale \textbf{$y = \frac{1}{2a} + \epsilon$} (sopra il massimo), avremo $\dot{y} < 0$. Quindi qui il flusso punta verso il basso (entra).
+    \item \textbf{Taglio obliquo a destra:}
+    Sommando le due equazioni del sistema otteniamo $\dot{x} + \dot{y} = -x + \frac{1}{2}$. 
+    Si nota che per $x > \frac{1}{2}$, si ha $\dot{x} + \dot{y} < 0$. 
+    Consideriamo il luogo dei punti $x+y = c$ (una retta con pendenza $-1$). Il prodotto scalare tra il campo vettoriale e la normale a questa retta $(1,1)$ ci dice che il flusso attraversa la retta verso l'interno per una scelta di $c$ sufficientemente grande, ad esempio $c = \frac{1}{2} + \frac{1}{2a} + \epsilon$.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[
+    scale=1.1, 
+    every node/.style={font=\footnotesize},
+    % Stile per le frecce del flusso
+    flow/.style={teal, -Stealth, thick}
+]
+
+    % =========================================================
+    % MACRO: Disegna la base comune a tutti i grafici
+    % (Assi, punto di equilibrio, contorno tratteggiato)
+    % =========================================================
+    \def\drawBackground{
+        % Assi
+        \draw[->] (-0.8, 0) -- (3.5, 0) node[right] {$x$};
+        \draw[->] (0, -0.3) -- (0, 2.8) node[above] {$y$};
+        
+        % Punto di equilibrio instabile (cerchio rosso con punto)
+        \filldraw[red] (0.8, 1.2) circle (1pt);
+        \draw[red, thick] (0.8, 1.2) circle (3pt);
+        
+        % Contorno della regione D (blu tratteggiato)
+        \draw[thick, blue, densely dashed] 
+            (-0.4, 0) -- (-0.4, 2.3) -- (1.6, 2.3) -- (2.8, 0) -- cycle;
+    }
+
+    % =========================================================
+    % 1) Bordo Inferiore (y=0)
+    % =========================================================
+    \begin{scope}[shift={(0,0)}]
+        \drawBackground
+        \node[anchor=south west, font=\bfseries] at (-1, 3) {1) Linea $y=0$ (Asse $x$)};
+        
+        % Evidenzia la linea
+        \draw[very thick, blue] (-0.4, 0) -- (2.8, 0);
+        
+        % Frecce verso l'alto
+        \foreach \x in {0, 0.5, 1, 1.5, 2, 2.5} {
+            \draw[flow] (\x, 0) -- (\x, 0.4);
+        }
+        \node[teal, font=\small] at (1.5, 0.65) {$\dot{y} > 0$};
+    \end{scope}
+
+    % =========================================================
+    % 2) Bordo Sinistro (x = -epsilon)
+    % =========================================================
+    \begin{scope}[shift={(6,0)}]
+        \drawBackground
+        \node[anchor=south west, font=\bfseries] at (-1, 3) {2) Linea $x=-\epsilon$};
+        
+        % Evidenzia la linea
+        \draw[very thick, blue] (-0.4, 0) -- (-0.4, 2.3);
+        
+        % Etichetta asse
+        \draw[thick, red] (-0.4, 0.05) -- (-0.4, 0.15) node[left] {$\epsilon$};
+        
+        % Frecce verso destra
+        \foreach \y in {0.4, 0.8, 1.2, 1.6, 2.0} {
+            \draw[flow] (-0.4, \y) -- (0.1, \y);
+        }
+        \node[teal, font=\small] at (0.5, 1.8) {$\dot{x} > 0$};
+    \end{scope}
+
+    % =========================================================
+    % 3) Isocline e determinazione del Tetto
+    % =========================================================
+    \begin{scope}[shift={(0,-4.5)}]
+        \drawBackground
+        \node[anchor=south west, font=\bfseries] at (-1, 3) {3) Isocline e Max di $\dot{y}=0$};
+        
+        % Isoclina x_dot = 0 (viola)
+        \draw[thick, violet] (0,0) 
+            .. controls (0.2,1.3) and (0.6,1.4) .. (0.8,1.2) 
+            .. controls (1.2,0.8) and (2.0,0.6) .. (2.8,0.5) 
+            node[right, align=center] {$\dot{x}=0$};
+            
+        % Isoclina y_dot = 0 (arancione)
+        \draw[thick, orange] (0,1.9) 
+            .. controls (0.4,1.9) and (0.5,1.5) .. (0.8,1.2) 
+            .. controls (1.2,0.8) and (2.0,0.4) .. (2.8,0.2) 
+            node[right, align=center] {$\dot{y}=0$};
+            
+        % Massimo sull'asse y
+        \draw[thick] (0.05, 1.9) -- (-0.05, 1.9) node[left] {$\frac{1}{2a}$};
+        
+        % Quota del tetto (sopra il max)
+        \draw[red, dotted, thick] (-0.6, 2.3) -- (0, 2.3);
+        \node[red, left] at (-0.6, 2.3) {$\frac{1}{2a} + \epsilon$};
+    \end{scope}
+
+    % =========================================================
+    % 4) Bordo Superiore (Tetto)
+    % =========================================================
+    \begin{scope}[shift={(6,-4.5)}]
+        \drawBackground
+        \node[anchor=south west, font=\bfseries] at (-1, 3) {4) Tetto $y = \frac{1}{2a} + \epsilon$};
+        
+        % Evidenzia la linea
+        \draw[very thick, blue] (-0.4, 2.3) -- (1.6, 2.3);
+        \node[red, left] at (-0.4, 2.3) {$\frac{1}{2a} + \epsilon$};
+        
+        % Frecce verso il basso
+        \foreach \x in {-0.2, 0.2, 0.6, 1.0, 1.4} {
+            \draw[flow] (\x, 2.3) -- (\x, 1.8);
+        }
+        \node[teal, font=\small] at (0.6, 1.5) {$\dot{y} < 0$};
+    \end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+
+\begin{center}
+\begin{tikzpicture}[
+    scale=1.5,
+    % Stile per le frecce del flusso vettoriale
+    flow arrow/.style={red, thick, -{Stealth[scale=1.2]}}
+]
+
+    % Assi X e Y
+    \draw[->, thick] (-1, 0) -- (3.5, 0) node[below] {$x$};
+    \draw[->, thick] (0, -0.5) -- (0, 3.2) node[left] {$y$};
+
+    % =========================================================
+    % 1) Bordo Esterno della regione D (Poligono Blu Tratteggiato)
+    % =========================================================
+    \draw[thick, blue, dashed] 
+        (-0.4, 0) -- 
+        (-0.4, 2.6) node[left] {$y = \frac{1}{2a} + \epsilon$} -- 
+        (1.5, 2.6) -- 
+        (3, 1.2) -- 
+        (3, 0) -- 
+        cycle;
+
+    % Frecce dal bordo esterno verso l'INTERNO di D
+    \draw[flow arrow] (-0.4, 1.3) -- (0.1, 1.3);    % Da sinistra verso destra
+    \draw[flow arrow] (0.6, 2.6) -- (0.6, 2.1);     % Dall'alto verso il basso
+    \draw[flow arrow] (2.25, 1.9) -- (1.9, 1.55);   % Dal lato obliquo verso il centro
+    \draw[flow arrow] (3, 0.6) -- (2.5, 0.6);       % Da destra verso sinistra
+    \draw[flow arrow] (1.8, 0) -- (1.8, 0.5);       % Dal basso verso l'alto
+
+    % =========================================================
+    % 2) Isoclina y_dot = 0 (Grigio Puntinato)
+    % =========================================================
+    % Disegnata in modo che passi esattamente per l'equilibrio (0.8, 1.2)
+    \draw[gray, dotted, thick, domain=-0.4:3.2, samples=100] 
+        plot (\x, {1.6/(1+0.52*\x*\x)});
+    \node[gray, above left] at (3.2, 0.15) {$\dot{y} = 0$};
+
+    % =========================================================
+    % 3) Bordo Interno della regione D (Cerchio Verde Tratteggiato)
+    % =========================================================
+    % Punto di equilibrio
+    \filldraw[black] (0.8, 1.2) circle (1.5pt) node[below right, xshift=2pt] {$(x^*, y^*)$};
+    
+    % Cerchio verde
+    \draw[thick, green!60!black, dashed] (0.8, 1.2) circle (0.35cm);
+
+    % Frecce dal cerchio interno verso l'ESTERNO del cerchio (quindi verso l'INTERNO di D)
+    \draw[flow arrow] (0.8, 1.55) -- (0.8, 1.95);   % Verso l'alto
+    \draw[flow arrow] (0.8, 0.85) -- (0.8, 0.45);   % Verso il basso
+    \draw[flow arrow] (1.15, 1.2) -- (1.55, 1.2);   % Verso destra
+    \draw[flow arrow] (0.45, 1.2) -- (0.05, 1.2);   % Verso sinistra
+
+\end{tikzpicture}
+\end{center}
+
+\textbf{Conclusione:} Abbiamo trovato una regione $D$ a forma di "ciambella" delimitata esternamente dal poligono blu e internamente dal cerchio verde. Su entrambi i bordi, il flusso punta verso l'interno di $D$, rendendo il dominio \textbf{positivamente invariante}. Poiché non vi sono altri punti di equilibrio in $D$, per il Teorema di Poincaré-Bendixson deve necessariamente esistere almeno una \textbf{soluzione periodica} all'interno della regione.
+
+
+
+
 
 
 \end{document}
