@@ -181,7 +181,7 @@ L'idea fondamentale è passare a un'analisi \textbf{qualitativa}: l'obiettivo no
 Possiamo distinguere i sistemi dinamici in due grandi famiglie:
 \begin{itemize}
     \item \textbf{Sistemi a Tempo Continuo (Differenziabili):} Descritti da equazioni differenziali $\displaystyle \frac{dx}{dt} = f(x)$.
-    \item \textbf{Sistemi a Tempo Discreto (Mappe):} Descritti da relazioni di ricorrenza $x_{n+1} = f(x_n)$, dove il tempo avanza a scatti discreti ($n=1, 2, 3...$).
+    \item \textbf{Sistemi a Tempo Discreto (Mappe):} Descritti da relazioni di ricorrenza $x_{n+1} = f(x_n)$, dove il tempo avanza a scatti discreti ($n=0, 1, 2...$).
 \end{itemize}
 
 \subsection{Il problema della Non-Linearità}
@@ -1004,9 +1004,10 @@ Nel grafico $(r, x^*)$, vediamo due rette che si intersecano. Da notare come le 
 
 \textbf{Condizioni matematiche per la Transcritica:}
 \begin{enumerate}
-    \item $f(x^*; r^*) = 0$ (Equilibrio)
+    \item $f(x^*; r^*) = 0$ (Punto di equilibrio)
     \item $\frac{\partial f}{\partial x}(x^*; r^*) = 0$ (Non iperbolicità)
-    \item $\frac{\partial^2 f}{ \partial r}(x^*; r^*) \neq 0$ 
+    \item $\frac{\partial f}{\partial r}(x^*; r^*) = 0$ (Condizione necessaria affinché ci siano due rami che si incrociano, a differenza della saddle-node)
+    \item $\frac{\partial^2 f}{\partial x \partial r}(x^*; r^*) \neq 0$ e $\frac{\partial^2 f}{\partial x^2}(x^*; r^*) \neq 0$ (Condizioni di non degenerazione)
 \end{enumerate}
 
 \subsubsection*{Esempio (Riduzione alla Forma Canonica)}
@@ -1674,7 +1675,7 @@ Risolvere l'equazione differenziale (quindi trovare le soluzioni) significa trov
 \end{center}
 
 
-\subsection*{Parte facoltativa: Varietà Differenziabili (Facoltativo)}
+\subsection*{Parte facoltativa: Varietà Differenziabili}
 Cosa succede se lo spazio delle fasi non è "piatto" come $\mathbb{R}^N$.
 Dobbiamo generalizzare il concetto di spazio delle fasi introducendo le \textbf{Varietà Differenziabili} ($M$).\\
 L'idea chiave è: \textit{M è uno spazio che globalmente può avere una forma complicata, ma localmente   assomiglia (è approssimabile) sempre a uno spazio piatto $\mathbb{R}^N$ (su cui ha senso derivare)}.
@@ -1801,7 +1802,7 @@ Per la regola della catena (Chain Rule):
 
 
 Possiamo riordinare l'espressione e identificare un \textbf{Operatore} $V$ che agisce su $f$:
-\[ V = \sum_{i=1}^m V^i \frac{\partial}{\partial x^i}\bigg|_P \quad \text{dove} \quad V^i = \frac{dx^i}{dt}(0) \]
+\[ V = \sum_{i=1}^n V^i \frac{\partial}{\partial x^i}\bigg|_P \quad \text{dove} \quad V^i = \frac{dx^i}{dt}(0) \]
 L'operatore $V$ calcola la \textbf{derivata direzionale} di $f$ muovendosi lungo la direzione tangente della curva $\gamma$ in $P$.
 \\
 Mentre i coefficienti $V^i$ sono le componenti del vettore.
@@ -3690,7 +3691,9 @@ Disegnando il diagramma al variare di $\lambda$ si trova che:
 \begin{itemize}
     \item Fino a $\lambda = 3$ c'è solo \textbf{un punto stabile}.
     \item Da $\lambda = 3$ avvengono biforcazioni con \textbf{raddoppio del periodo} (si creano $m$-cicli). Si osserva lo stesso pattern tipico di biforcazione.
-    \item Verso $\lambda = 4$ si entra in una regione con pattern non riconoscibile \textbf{(Caos)}.
+    \item Oltre un certo valore critico ($\lambda \approx 3.5699$) si entra nel regime caotico. 
+          In particolare, per $\lambda = 4$, il comportamento caotico esplora l'intero dominio $[0, 1]$.
+
 \end{itemize}
 
 \textit{Questo grafico tiene conto solo dei punti fissi e $m$-cicli di $f$ stabili.}
@@ -3929,11 +3932,12 @@ $$ T(x) = \begin{cases}
 \end{minipage}
 
 \textbf{Iterata Seconda}: $T^2(x) = T(T(x))$
-$$ T^2(x) = \begin{cases} 
-2(2x) & 0 \leq 2x \leq \frac{1}{2} \\
-2(1-2x) & \frac{1}{2} \leq 2x \leq 1 \\
-2(1-x) & 0 \leq 2(1-x) \leq \frac{1}{2} \\
-2 - 2(2-2x) & \frac{1}{2} \leq 2(1-x) \leq 1 
+$$ T^2(x) = 
+\begin{cases}
+2(2x) & \text{se } 0 \le x \le \frac{1}{4} \quad (\text{perchè } T(x) \le \frac{1}{2}) \\
+2 - 2(2x) & \text{se } \frac{1}{4} \le x \le \frac{1}{2} \quad (\text{perchè } T(x) \ge \frac{1}{2}) \\
+2 - 2(2-2x) & \text{se } \frac{1}{2} \le x \le \frac{3}{4} \quad (\text{perchè } T(x) \ge \frac{1}{2}) \\
+2(2-2x) & \text{se } \frac{3}{4} \le x \le 1 \quad (\text{perchè } T(x) \le \frac{1}{2})
 \end{cases}
 \quad = \quad
 \begin{cases}
@@ -4086,7 +4090,7 @@ $$ h \circ f = g \circ h $$
 
 \vspace{1em}
 \textbf{Teorema} (Conservazione del caos)
-Siano $f: I \to I$ e $g: J \to J$ coniugate tramite $h: I \to J$. \\
+Siano $f: I \to I$ e $g: J \to J$ (con $I, J$ intervalli finiti) coniugate tramite $h: I \to J$. \\
 Allora: se $f$ è caotica $\implies g$ è caotica.
 
 
@@ -6013,7 +6017,7 @@ L'insieme $\omega$-limite è \textbf{invariante}.
 \begin{dimostrazione}
 Sia $\vb{y} \in \omega(\vb{x})$. Per definizione, possiamo trovare una sequenza di tempi $\{t_k\}$ tale per cui $\phi_{t_k}(\vb{x}) \to \vb{y}$ per $k \to \infty$.
 
-Fissiamo un tempo arbitrario $s \in \R$. Sfruttando la continuità del flusso dinamico, possiamo scrivere:
+Fissiamo un tempo arbitrario $s \in \R$. Sfruttando la continuità del flusso dinamico rispetto alle condizioni inziiali, possiamo scrivere:
 $$ \phi_{s+t_k}(\vb{x}) = \phi_s(\phi_{t_k}(\vb{x})) \xrightarrow[k \to \infty]{} \phi_s(\vb{y}) $$
 Questo limite implica che anche il punto $\phi_s(\vb{y})$ appartiene a $\omega(\vb{x})$. 
 Poiché questo ragionamento è valido $\forall s \in \R$, significa che l'intero flusso a partire da $\vb{y}$ rimane confinato in $\omega(\vb{x})$, che si dimostra essere quindi un insieme invariante. \qed
@@ -6027,7 +6031,7 @@ Prendiamo $V(\vb{x})$ e ne valutiamo la derivata temporale lungo le traiettorie 
 
 Definiamo la \textbf{derivata orbitale}:
 \begin{equation}
-    \dot{V}(\vb{x}) = \eval{\dv{t} V(\phi_t(\vb{x}))}_{t=0} = \pdv{V}{x_1}\dv{x_1}{t} + \dots + \pdv{V}{x_n}\dv{x_n}{t} = \grad V \cdot \vb{f}(\vb{x})
+    \dot{V}(\vb{x}) = \eval{\dv{t} V(\phi_t(\vb{x}))}_{t=0} = \pdv{V}{x_1}\dv{x_1}{t} + \dots + \pdv{V}{x_n}\dv{x_n}{t} = \grad V(\vb{x}) \cdot \vb{f}(\vb{x})
 \end{equation}
 Il segno di $\dot{V}(\vb{x})$ ci dice se l'"energia" del sistema cresce o diminuisce quando il sistema si muove.
 
@@ -6061,13 +6065,18 @@ Sia $V(\vb{x})$ una funzione di Ljapunov per $\vb{x}^*$. Dobbiamo mostrare la st
 
 \begin{enumerate}
     \item Fissiamo un $\varepsilon > 0$ tale per cui una palla chiusa $B_\varepsilon(\vb{x}^*)$ sia interamente contenuta nell'intorno $U$.
-    \item Guardiamo il bordo di questa palla, $\partial B_\varepsilon(\vb{x}^*)$. Poiché $V$ è definita positiva e continua, su questo bordo (che è un compatto) $V$ assumerà un valore minimo. Chiamiamo questo minimo $m$:
-    $$ m = \min_{\vb{x} \in \partial B_\varepsilon} V(\vb{x}) $$
-    Poiché $V(\vb{x})$ è strettamente maggiore di $V(\vb{x}^*)$ fuori dal punto fisso, sappiamo sicuramente che $m > V(\vb{x}^*)$.
+    \item Guardiamo il bordo di questa palla, $\partial B_\epsilon(\vec{x}^*)$. Poiché $V$ è definita positiva e continua, su questo bordo (che è un compatto) $V$ assumerà un valore minimo. Chiamiamo questo minimo $m$:
+    \begin{equation*}
+        m = \min_{\vec{x} \in \partial B_\epsilon} V(\vec{x})
+    \end{equation*}
+    Poiché per ipotesi $V(\vec{x}^*) = 0$ e $V(\vec{x}) > 0$ per $\vec{x} \neq \vec{x}^*$, e poiché il bordo non contiene l'origine, sappiamo sicuramente che $m > 0$.
+
     
-    \item Definiamo un "insieme sicuro" $S_m$ all'interno della palla:
-    $$ S_m = \{ \vb{x} \in B_\varepsilon(\vb{x}^*) \mid V(\vb{x}) < m \} $$
-    Poiché $V(\vb{x}^*) < m$, il punto fisso è contenuto dentro $S_m$. Per continuità della funzione $V$, esisterà sicuramente un raggio $\delta > 0$ abbastanza piccolo tale che la palla $B_\delta(\vb{x}^*)$ sia \textbf{tutta} contenuta in $S_m$.
+    \item Definiamo un ``insieme sicuro'' $S_m$ all'interno della palla:
+    \begin{equation*}
+        S_m = \{ \vec{x} \in B_\epsilon(\vec{x}^*) \mid V(\vec{x}) < m \}
+    \end{equation*}
+    Poiché $V(\vec{x}^*) = 0 < m$, il punto fisso è contenuto dentro l'insieme $S_m$. Per continuità della funzione $V$, esisterà sicuramente un raggio $\delta > 0$ abbastanza piccolo tale che la palla $B_\delta(\vec{x}^*)$ sia tutta contenuta in $S_m$.
     
     \item \textbf{Dimostriamo la stabilità:} Prendiamo un dato iniziale (una perturbazione) $\vb{y} \in B_\delta(\vb{x}^*)$. Vogliamo dimostrare che l'orbita futura $\phi_t(\vb{y})$ non esce mai dalla palla $B_\varepsilon(\vb{x}^*)$.
     
@@ -7506,7 +7515,7 @@ Esiste un intorno $U$ dell'origine tale che la \textit{varietà stabile locale}:
 \[
 W^{(s)}_{loc}(0) = \left\{ x \in W^s(0) \;\big|\; \phi_t(x) \in U \text{ per } t \ge 0 \right\}
 \]
-è il grafico di una funzione tangenziale ad $E^s$ nell'origine. Pertanto $W^{(s)}_{loc}$ è una varietà differenziabile e il suo spazio tangente nell'origine coincide con il sottospazio lineare $E^s$:
+è il grafico di una funzione tangente ad $E^s$ nell'origine. Pertanto $W^{(s)}_{loc}$ è una varietà differenziabile e il suo spazio tangente nell'origine coincide con il sottospazio lineare $E^s$:
 \[
 T_0 W^{(s)}_{loc} = E^s
 \]
